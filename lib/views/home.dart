@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:namma_samachara/controllers/news_controller.dart';
 import 'package:namma_samachara/views/widgets/news_widget.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    NewsController.fetchNews();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
