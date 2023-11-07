@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:http/http.dart';
+import 'package:namma_samachara/model/news_model.dart';
 
 class NewsController {
   static List sourcesId = [
@@ -34,22 +35,20 @@ class NewsController {
     "usa-today",
   ];
 
-  static fetchNews() async {
+  static Future<News> fetchNews() async {
     final _random = Random();
     var sourceId = sourcesId[_random.nextInt(sourcesId.length)];
-
-    print(sourceId);
     Response response = await get(Uri.parse(
         "https://newsapi.org/v2/top-headlines?sources=$sourceId&apiKey=b8750a6914774868a41c609aef6ed1bf"));
-
+    print("Line 43");
     Map body_data = jsonDecode(response.body);
+    print(body_data);
 
     List articles = body_data["articles"];
 
     final _randomArticle = Random();
     var articleSource = articles[_random.nextInt(articles.length)];
 
-    print("******************");
-    print("Article source $articleSource");
+    return News.fromApi(articleSource);
   }
 }
