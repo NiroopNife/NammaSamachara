@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 class NewsWidget extends StatelessWidget {
   String imgUrl;
   String title;
+  String content;
   String description;
   String newsUrl;
 
   NewsWidget(
       {required this.imgUrl,
       required this.title,
+      required this.content,
       required this.description,
       required this.newsUrl,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -40,6 +42,11 @@ class NewsWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
+                  content,
+                  style: const TextStyle(fontSize: 12, color: Colors.black38),
+                ),
+                const SizedBox(height: 10),
+                Text(
                   description,
                   style: const TextStyle(fontSize: 16),
                 ),
@@ -54,7 +61,7 @@ class NewsWidget extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Text("Read More"),
+                  child: const Text("Read More"),
                 ),
               ),
             ],

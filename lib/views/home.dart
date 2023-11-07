@@ -24,9 +24,12 @@ class _HomeViewState extends State<HomeView> {
         scrollDirection: Axis.vertical,
         itemCount: 10,
         itemBuilder: (context, index) {
+          NewsController.fetchNews();
           return NewsWidget(
             imgUrl: 'https://picsum.photos/250?image=9',
             title: "5G in India",
+            content:
+                "5G is great on paper. But in real-world use, it has been synonymous with call drops, constant shuffle between 4G and 5G, and network vacuums.",
             description:
                 "5G is great on paper. But in real-world use, it has been synonymous with call drops, constant shuffle between 4G and 5G, and network vacuums. It has basically been a disaster and in this piece, we dig deeper into the poor experience.",
             newsUrl:
