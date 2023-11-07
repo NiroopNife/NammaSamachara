@@ -36,13 +36,13 @@ class NewsWidget extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 Text(
-                  title,
+                  title.length > 70 ? "${title.substring(0, 70)}..." : title,
                   style: const TextStyle(
                       fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  content,
+                  content.length > 250 ? content.substring(0, 250) : "${content.toString().substring(0, content.length - 15)}...",
                   style: const TextStyle(fontSize: 12, color: Colors.black38),
                 ),
                 const SizedBox(height: 10),
