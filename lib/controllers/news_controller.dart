@@ -35,20 +35,18 @@ class NewsController {
     "usa-today",
   ];
 
-  static Future<News> fetchNews() async {
+  static Future<NewsArt> fetchNews() async {
     final _random = Random();
     var sourceId = sourcesId[_random.nextInt(sourcesId.length)];
     Response response = await get(Uri.parse(
         "https://newsapi.org/v2/top-headlines?sources=$sourceId&apiKey=b8750a6914774868a41c609aef6ed1bf"));
-    print("Line 43");
     Map body_data = jsonDecode(response.body);
-    print(body_data);
-
     List articles = body_data["articles"];
 
-    final _randomArticle = Random();
-    var articleSource = articles[_random.nextInt(articles.length)];
+    final _Newrandom = new Random();
+    var myArticle = articles[_random.nextInt(articles.length)];
 
-    return News.fromApi(articleSource);
+
+    return NewsArt.fromAPItoApp(myArticle);
   }
 }

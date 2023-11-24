@@ -3,47 +3,54 @@ import 'package:namma_samachara/controllers/news_controller.dart';
 import 'package:namma_samachara/model/news_model.dart';
 import 'package:namma_samachara/views/widgets/news_widget.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  late News news;
+class _HomeScreenState extends State<HomeScreen> {
+  bool isLoading = true;
+
+  late NewsArt newsArt;
+
+  GetNews() async {
+    newsArt = await NewsController.fetchNews();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   void initState() {
-    getNews();
-
+    GetNews();
     super.initState();
-  }
-
-  getNews() async {
-    news = await NewsController.fetchNews();
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
       body: PageView.builder(
-        controller: PageController(initialPage: 0),
-        scrollDirection: Axis.vertical,
-        onPageChanged: (value) {
-          getNews();
-        },
-        itemBuilder: (context, index) {
-          return NewsWidget(
-            imgUrl: news.imageUrl,
-            title: news.title,
-            content: news.content,
-            description: news.description,
-            newsUrl: news.newsUrl,
-          );
-        },
-      ),
+          controller: PageController(initialPage: 0),
+          scrollDirection: Axis.vertical,
+          onPageChanged: (value) {
+            setState(() {
+              isLoading = true;
+            });
+            GetNews();
+          },
+          itemBuilder: (context, index) {
+            return isLoading ? Center(child: CircularProgressIndicator(),) : NewsContainer(
+                imgUrl: newsArt.imgUrl,
+                newsCnt: newsArt.newsCnt,
+                newsHead: newsArt.newsHead,
+                newsDes: newsArt.newsDes,
+                newsUrl: newsArt.newsUrl);
+          }),
     );
   }
 }

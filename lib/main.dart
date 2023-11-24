@@ -1,23 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:namma_samachara/views/home.dart';
+import 'package:namma_samachara/views/splash.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool showingSplash = true;
+  LoadHome() {
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        showingSplash = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadHome();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'News Snack',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
+      home: showingSplash ? SplashScreen() : HomeScreen(),
     );
   }
 }

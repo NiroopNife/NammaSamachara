@@ -1,74 +1,98 @@
 import 'package:flutter/material.dart';
+import 'package:namma_samachara/views/detail_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class NewsWidget extends StatelessWidget {
+class NewsContainer extends StatelessWidget {
   String imgUrl;
-  String title;
-  String content;
-  String description;
+  String newsHead;
+  String newsDes;
   String newsUrl;
-
-  NewsWidget(
-      {required this.imgUrl,
-      required this.title,
-      required this.content,
-      required this.description,
-      required this.newsUrl,
-      super.key});
+  String newsCnt;
+  NewsContainer(
+      {super.key,
+        required this.imgUrl,
+        required this.newsDes,
+        required this.newsCnt,
+        required this.newsHead,
+        required this.newsUrl});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            imgUrl,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        FadeInImage.assetNetwork(
             height: 400,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Text(
-                  title.length > 70 ? "${title.substring(0, 70)}..." : title,
-                  style: const TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  content.length > 250 ? content.substring(0, 250) : "${content.toString().substring(0, content.length - 15)}...",
-                  style: const TextStyle(fontSize: 12, color: Colors.black38),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  description,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
+            placeholder: "assets/img/placeholder.jfif",
+            image: imgUrl),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child:
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Read More"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-        ],
-      ),
+            Text(
+              newsHead.length > 90
+                  ? "${newsHead.substring(0, 90)}..."
+                  : newsHead,
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              newsDes,
+              style: TextStyle(fontSize: 12, color: Colors.black38),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              newsCnt != "--"
+                  ? newsCnt.length > 250
+                  ? newsCnt.substring(0, 250)
+                  : "${newsCnt.toString().substring(0, newsCnt.length - 15)}..."
+                  : newsCnt,
+              style: TextStyle(fontSize: 16),
+            ),
+          ]),
+        ),
+        Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DetailView(newsUrl: newsUrl)));
+                  },
+                  child: Text("Read More")),
+            ),
+          ],
+        ),
+        Center(
+            child: TextButton(
+                onPressed: () async {
+                  await launchUrl(Uri.parse("https://newsapi.org/"));
+                },
+                child: Text(
+                  "News Provided By NewsAPI.org",
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.center,
+                ))),
+        SizedBox(
+          height: 20,
+        ),
+      ]),
     );
   }
 }
